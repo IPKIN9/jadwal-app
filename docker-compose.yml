@@ -1,0 +1,17 @@
+version: "3"
+services:
+    db:
+        image: mysql:5.7
+        environment:
+            MYSQL_DATABASE: jadwalpintar
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+            TZ: "Asia/Singapore"
+        ports:
+            - 3306:3306
+        volumes:
+            - ./mysql-data:/var/lib/mysql
+        command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
+volumes:
+    dbdata:
