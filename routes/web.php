@@ -7,7 +7,7 @@ $router->group(['prefix' => 'v1/jurusan'], function () use ($router) {
     $router->delete('/{id}', ['uses' => 'JurusanController@deleteData']);
 });
 
-$router->group(['prefix' => 'v1/pangkat', 'middleware' => 'auth'], function () use ($router) {
+$router->group(['prefix' => 'v1/pangkat'], function () use ($router) {
     $router->get('/', ['uses' => 'PangkatController@getAllData']);
     $router->get('/{id}', ['uses' => 'PangkatController@getById']);
     $router->post('/', ['uses' => 'PangkatController@upsertData']);
