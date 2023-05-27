@@ -38,6 +38,13 @@ class JadwalController extends Controller
 
   public function upsertData(Request $payload): JsonResponse
   {
+    $rules = array(
+      'kode' => 'required',
+      'kelas_id' => 'required|numeric',
+    );
+
+    $this->validate($payload, $rules);
+
     $id = $payload->id | null;
     $payload = array(
       'kode' => $payload->kode,

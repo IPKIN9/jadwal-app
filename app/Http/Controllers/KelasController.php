@@ -38,6 +38,13 @@ class KelasController extends Controller
 
   public function upsertData(Request $payload): JsonResponse
   {
+    $rules = array(
+      '_kelas' => 'required|min:2|max:150',
+      'jurusan_id' => 'required|numeric',
+    );
+
+    $this->validate($payload, $rules);
+
     $id = $payload->id | null;
     $payload = array(
       '_kelas' => $payload->_kelas,

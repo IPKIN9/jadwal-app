@@ -38,6 +38,10 @@ class MapelController extends Controller
 
   public function upsertData(Request $payload): JsonResponse
   {
+    $this->validate($payload, [
+      'nama_mapel' => 'required|min:2|max:150',
+    ]);
+
     $id = $payload->id | null;
     $payload = array(
       'nama_mapel' => $payload->nama_mapel

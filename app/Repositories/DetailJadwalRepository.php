@@ -104,19 +104,21 @@ class DetailJadwalRepository implements DetailJadwalInterface
   public function scanningPayload($meta)
   {
     try {
-      $data   = $this->detailJadwalModel;
-      $kelas  = $data->getKelas($meta)->count();
-      $guru   = $data->getGuru($meta)->count();
-      $time   = $data->getJam($meta)->count();
+      $data     = $this->detailJadwalModel;
+      $kelas    = $data->getKelas($meta)->count();
+      $guru     = $data->getGuru($meta)->count();
+      $jamGuru  = $data->getGuru($meta)->timeOnly($meta)->count();
+      $time     = $data->getJamKelas($meta)->timeOnly($meta)->count();
 
       $payloadList = array(
         'message' => 'success',
         'static'  => array(
           'kelas'   => $kelas >= 2 ? 'full' : $kelas,
           'guru'    => $guru >= 2 ? 'full' : $guru,
+          'jam_guru'    => $jamGuru >= 1 ? 'full' : $jamGuru,
           'time'    => $time >= 1 ? 'full' : 1,
         ),
-        'ready'   => $guru < 2 & $kelas < 2 and $time < 1 ? true : false,
+        'ready'   => $guru < 2 & $kelas < 2 and $time < 1 and $jamGuru < 1 ? true : false,
         'code'    => 200
       );
     } catch (\Throwable $th) {

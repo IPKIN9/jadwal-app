@@ -65,14 +65,20 @@ class DetailJadwalModel extends Model
     public function scopegetGuru($query, $params)
     {
         return $query
-            ->where('tgl', $params['tgl'])->where('guru_id', $params['guru_id']);
+            ->where('tgl', $params['tgl'])
+            ->where('guru_id', $params['guru_id']);
     }
 
-    public function scopegetJam($query, $params)
+    public function scopegetJamKelas($query, $params)
     {
         return $query
             ->where('tgl', $params['tgl'])
-            ->where('jadwal_id', $params['jadwal_id'])
+            ->where('jadwal_id', $params['jadwal_id']);
+    }
+
+    public function scopetimeOnly($query, $params)
+    {
+        return $query
             ->where(function ($a) use ($params) {
                 $a->where(function ($b) use ($params) {
                     $b

@@ -39,6 +39,18 @@ class DetailJadwalController extends Controller
 
   public function upsertData(Request $payload): JsonResponse
   {
+    $rules = array(
+      'jadwal_id' => 'required|numeric',
+      'guru_id' => 'required|numeric',
+      'mapel' => 'required|min:2|max:150',
+      'jumlah_jam' => 'required|numeric',
+      'tgl' => 'required',
+      'jam_masuk' => 'required',
+      'jam_keluar' => 'required',
+    );
+
+    $this->validate($payload, $rules);
+
     $id = $payload->id | null;
     $payload = array(
       'jadwal_id'  => (int) $payload->jadwal_id,

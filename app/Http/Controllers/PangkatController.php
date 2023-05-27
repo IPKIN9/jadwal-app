@@ -30,6 +30,10 @@ class PangkatController extends Controller
 
   public function upsertData(Request $payload): JsonResponse
   {
+    $this->validate($payload, [
+      '_pangkat' => 'required|min:2|max:150',
+    ]);
+
     $id = $payload->id | null;
     $payload = array(
       '_pangkat' => $payload->_pangkat

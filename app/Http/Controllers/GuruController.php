@@ -38,6 +38,16 @@ class GuruController extends Controller
 
     public function upsertData(Request $payload): JsonResponse
     {
+        $rules = array(
+            'nama' => 'required|min:2|max:150',
+            'nip' => 'required|min:15|max:20',
+            'mapel_id' => 'required|numeric',
+            'pangkat_id' => 'required|numeric',
+            'jumlah_jam' => 'required|numeric',
+        );
+
+        $this->validate($payload, $rules);
+
         $id = $payload->id | null;
         $payload = array(
             'nama' => $payload->nama,

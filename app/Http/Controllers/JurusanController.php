@@ -30,6 +30,10 @@ class JurusanController extends Controller
 
   public function upsertData(Request $payload): JsonResponse
   {
+    $this->validate($payload, [
+      '_jurusan' => 'required|min:2|max:150',
+    ]);
+
     $id = $payload->id | null;
     $payload = array(
       '_jurusan' => $payload->_jurusan
