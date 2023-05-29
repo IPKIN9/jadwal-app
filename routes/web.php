@@ -1,7 +1,7 @@
 <?php
 
 $router->group(['prefix' => 'v1/jurusan'], function () use ($router) {
-    $router->get('/', ['uses' => 'JurusanController@getAllData']);
+    $router->get('/', ['uses' => 'JurusanController@getAllData', 'middleware' => ['auth', 'scope:crud-list']]);
     $router->get('/{id}', ['uses' => 'JurusanController@getById']);
     $router->post('/', ['uses' => 'JurusanController@upsertData']);
     $router->delete('/{id}', ['uses' => 'JurusanController@deleteData']);
