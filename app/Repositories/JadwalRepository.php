@@ -20,9 +20,10 @@ class JadwalRepository implements JadwalInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->jadwalModel->pagginateList($meta);
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->jadwalModel->pagginateList($meta)->joinList()->get(),
+        'data'    => $data->joinList()->get(),
         'meta'    => array(
           'total'   => $this->jadwalModel->count(),
           'page'    => $meta['page'],

@@ -8,6 +8,10 @@ class CostumScopesForAny
 {
     public function handle($request, Closure $next, ...$scopes)
     {
+        if (app()->environment('local')) {
+            return $next($request);
+        }
+
         if (!$request->user() || !$request->user()->token()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }

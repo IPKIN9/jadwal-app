@@ -24,7 +24,7 @@ class DetailJadwalRepository implements DetailJadwalInterface
         'message' => 'success',
         'data'    => $data->get(),
         'meta'    => array(
-          'total'   => $data->count(),
+          'total'   => $this->detailJadwalModel->count(),
           'page'    => $meta['page'],
           'limit'   => $meta['limit'],
           'orderBy' => $meta['orderBy'],

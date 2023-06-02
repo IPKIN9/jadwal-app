@@ -19,9 +19,10 @@ class MapelRepository implements MapelInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->mapelModel->pagginateList($meta);
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->mapelModel->pagginateList($meta)->get(),
+        'data'    => $data->get(),
         'meta'    => array(
           'total'   => $this->mapelModel->count(),
           'page'    => $meta['page'],

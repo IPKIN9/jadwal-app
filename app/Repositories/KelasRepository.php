@@ -20,9 +20,10 @@ class KelasRepository implements KelasInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->kelasModel->pagginateList($meta)->joinList();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->kelasModel->pagginateList($meta)->joinList()->get(),
+        'data'    => $data->get(),
         'meta'    => array(
           'total'   => $this->kelasModel->count(),
           'page'    => $meta['page'],

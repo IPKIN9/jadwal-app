@@ -20,9 +20,10 @@ class GuruRepository implements GuruInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->guruModel->pagginateList($meta);
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->guruModel->pagginateList($meta)->joinList()->get(),
+        'data'    => $data->joinList()->get(),
         'meta'    => array(
           'total'   => $this->guruModel->count(),
           'page'    => $meta['page'],
