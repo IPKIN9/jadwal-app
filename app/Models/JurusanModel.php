@@ -18,8 +18,8 @@ class JurusanModel extends Model
             ->orderBy('created_at', $params['sort']);
         } else {
             return $query
-            ->orderByRaw("CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(" . $params['orderBy'] . ", ' ', 1), ' ', -1) AS UNSIGNED) " . $params['sort'])
-            ->orderByRaw("SUBSTRING_INDEX(" . $params['orderBy'] . ", ' ', 1) " . $params['sort']);
+            ->orderByRaw("CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(" . $params['orderBy'] . ", ' ', -1), ' ', 1) AS UNSIGNED) " . $params['sort'])
+            ->orderByRaw("SUBSTRING_INDEX(" . $params['orderBy'] . ", ' ', -1) " . $params['sort']);
         }
     }
 
@@ -28,9 +28,7 @@ class JurusanModel extends Model
         $page = ($params['page'] - 1) * $params['limit'];
         if (strlen($params['search']) >= 1) {
             return $query
-                ->where($params['orderBy'], 'LIKE', '%' . $params['search'] . '%')
-                ->offset($page)
-                ->limit($params['limit']);
+                ->where('_jurusan', 'LIKE', '%' . $params['search'] . '%');
         } else {
             return $query
                 ->offset($page)

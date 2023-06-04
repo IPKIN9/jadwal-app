@@ -18,16 +18,17 @@ class PangkatRepository implements PangkatInterface
   public function getPayload($meta)
   {
     try {
-      $data = $this->PangkatModel->pagginateList($meta);
+      $data = $this->PangkatModel->pagginateList($meta)->sortered($meta)->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $data->get(),
+        'data'    => $data,
         'meta'    => array(
-          'total'   => $this->PangkatModel->count(),
-          'page'    => $meta['page'],
-          'limit'   => $meta['limit'],
-          'orderBy' => $meta['orderBy'],
-          'sort' => $meta['sort'],
+          'total'         => $this->PangkatModel->count(),
+          'page'          => $meta['page'],
+          'limit'         => $meta['limit'],
+          'orderBy'       => $meta['orderBy'],
+          'sort'          => $meta['sort'],
+          'total_in_page' => $data->count()
         ),
         'code'    => 200
       );
