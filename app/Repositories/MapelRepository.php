@@ -19,16 +19,17 @@ class MapelRepository implements MapelInterface
   public function getPayload($meta)
   {
     try {
-      $data = $this->mapelModel->pagginateList($meta);
+      $data = $this->mapelModel->pagginateList($meta)->sortered($meta)->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $data->get(),
+        'data'    => $data,
         'meta'    => array(
-          'total'   => $this->mapelModel->count(),
-          'page'    => $meta['page'],
-          'limit'   => $meta['limit'],
-          'orderBy' => $meta['orderBy'],
-          'sort' => $meta['sort'],
+          'total'         => $this->mapelModel->count(),
+          'page'          => $meta['page'],
+          'limit'         => $meta['limit'],
+          'orderBy'       => $meta['orderBy'],
+          'sort'          => $meta['sort'],
+          'total_in_page' => $data->count()
         ),
         'code'    => 200
       );
