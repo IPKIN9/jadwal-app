@@ -18,12 +18,9 @@ class DetailJadwalController extends Controller
   public function getAllData(): JsonResponse
   {
     $meta = array(
-      'jadwal_id' => (int) request('jadwal_id'),
-      'search'    =>       request('search'),
-      'page'      => (int) request('page'),
-      'limit'     => (int) request('limit'),
-      'orderBy'   =>       request('orderBy'),
-      'sort'      =>       request('sort'),
+      'jadwal_id'  => request('jadwal_id'),
+      'start_date' => request('start_date'),
+      'end_date'   => request('end_date'),
     );
     $data = $this->detailJadwalRepo->getPayload($meta);
     return response()->json($data, $data['code']);

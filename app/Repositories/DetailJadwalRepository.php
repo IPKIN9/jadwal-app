@@ -19,19 +19,33 @@ class DetailJadwalRepository implements DetailJadwalInterface
   public function getPayload($meta)
   {
     try {
-      $data = $this->detailJadwalModel->pagginateList($meta)->joinList();
+      // $data = $this->detailJadwalModel->joinList()->pagginateList($meta)->sortered($meta)->get();
+      // $payloadList = array(
+      //   'message' => 'success',
+      //   'data'    => $data,
+      //   'meta'    => array(
+      //     'total'         => $this->detailJadwalModel->count(),
+      //     'page'          => $meta['page'],
+      //     'limit'         => $meta['limit'],
+      //     'orderBy'       => $meta['orderBy'],
+      //     'sort'          => $meta['sort'],
+      //     'total_in_page' => $data->count()
+      //   ),
+      //   'code'    => 200
+      // );
+
+      $data = $this->detailJadwalModel->getByMonth($meta)->joinList()->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $data->get(),
+        'data'    => $data,
         'meta'    => array(
-          'total'   => $this->detailJadwalModel->count(),
-          'page'    => $meta['page'],
-          'limit'   => $meta['limit'],
-          'orderBy' => $meta['orderBy'],
-          'sort' => $meta['sort'],
+          'total'         => $data->count(),
+          'start_date'          => $meta['start_date'],
+          'end_date'         => $meta['end_date'],
         ),
         'code'    => 200
       );
+
     } catch (\Throwable $th) {
       $payloadList = array(
         'message' => $th->getMessage(),
