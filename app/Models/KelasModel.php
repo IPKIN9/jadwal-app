@@ -52,4 +52,12 @@ class KelasModel extends Model
                 ->limit($params['limit']);
         }
     }
+
+    public function scopegetByJurusan($query, $params)
+    {
+        if ($params['jurusan_id']) {
+            return $query->where('jurusan_id', $params['jurusan_id']);
+        }
+        return $query;
+    }
 }
