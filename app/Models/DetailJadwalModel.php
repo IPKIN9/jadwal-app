@@ -9,20 +9,21 @@ class DetailJadwalModel extends Model
 	protected $table = 'detail_jadwal';
 
 	protected $fillable = [
-		'id', 'jadwal_id', 'guru_id', 'mapel', 'jumlah_jam', 'tgl', 'jam_masuk', 'jam_keluar',
+		'id', 'kelas_id', 'guru_id', 'mapel', 'jumlah_jam', 'tgl', 'jam_masuk', 'jam_keluar',
 		'created_at', 'updated_at'
 	];
 
 	public function scopejoinList($query)
 	{
 		return $query
-			->leftJoin('jadwal as model_a', 'detail_jadwal.jadwal_id', '=', 'model_a.id')
+			->leftJoin('kelas as model_a', 'detail_jadwal.kelas_id', '=', 'model_a.id')
 			->leftJoin('guru as model_b', 'detail_jadwal.guru_id', '=', 'model_b.id')
 			->select(
 				'detail_jadwal.id',
-				'model_a.kode as kode',
-				'detail_jadwal.jadwal_id',
+				'model_a._kelas as kelas',
+				'detail_jadwal.kelas_id',
 				'model_b.nama as guru',
+				'detail_jadwal.guru_id',
 				'detail_jadwal.mapel',
 				'detail_jadwal.jumlah_jam',
 				'detail_jadwal.tgl',
@@ -48,9 +49,9 @@ class DetailJadwalModel extends Model
 	public function scopepagginateList($query, $params)
 	{
 		$page = ($params['page'] - 1) * $params['limit'];
-		if (strlen($params['search']) >= 1 || $params['jadwal_id'] | strlen($params['search']) >= 1) {
+		if (strlen($params['search']) >= 1 || $params['kelas_id'] | strlen($params['search']) >= 1) {
 			return $query
-				->where('jadwal_id', $params['jadwal_id'])
+				->where('kelas_id', $params['kelas_id'])
 				->where(function ($q) use ($params) {
 					$q->where('kode', 'LIKE', '%' . $params['search'] . '%')
 						->orWhere('model_b.nama', 'LIKE', '%' . $params['search'] . '%')
@@ -67,7 +68,7 @@ class DetailJadwalModel extends Model
 	{
 		return $query
 			->where('tgl', $params['tgl'])
-			->where('jadwal_id', $params['jadwal_id']);
+			->where('kelas_id', $params['kelas_id']);
 	}
 
 	public function scopegetGuru($query, $params)
@@ -81,7 +82,7 @@ class DetailJadwalModel extends Model
 	{
 		return $query
 			->where('tgl', $params['tgl'])
-			->where('jadwal_id', $params['jadwal_id']);
+			->where('kelas_id', $params['kelas_id']);
 	}
 
 	public function scopetimeOnly($query, $params)
@@ -103,8 +104,13 @@ class DetailJadwalModel extends Model
 
 	public function scopegetByMonth($query, $params)
 	{
-		return $query
-			->where('jadwal_id', $params['jadwal_id'])
+		if (strlen($params['kelas_id'] >= 1)) {
+			return $query
+			->where('kelas_id', $params['kelas_id'])
 			->whereBetween('tgl', [$params['start_date'], $params['end_date']]);
+		} else {
+			return $query
+			->whereBetween('tgl', [$params['start_date'], $params['end_date']]);
+		}
 	}
 }

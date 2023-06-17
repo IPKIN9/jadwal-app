@@ -18,7 +18,7 @@ class DetailJadwalController extends Controller
   public function getAllData(): JsonResponse
   {
     $meta = array(
-      'jadwal_id'  => request('jadwal_id'),
+      'kelas_id'  => request('kelas_id'),
       'start_date' => request('start_date'),
       'end_date'   => request('end_date'),
     );
@@ -37,7 +37,7 @@ class DetailJadwalController extends Controller
   public function upsertData(Request $payload): JsonResponse
   {
     $rules = array(
-      'jadwal_id' => 'required|numeric',
+      'kelas_id' => 'required|numeric',
       'guru_id' => 'required|numeric',
       'mapel' => 'required|min:2|max:150',
       'jumlah_jam' => 'required|numeric',
@@ -50,7 +50,7 @@ class DetailJadwalController extends Controller
 
     $id = $payload->id | null;
     $payload = array(
-      'jadwal_id'  => (int) $payload->jadwal_id,
+      'kelas_id'  => (int) $payload->kelas_id,
       'guru_id'    => (int) $payload->guru_id,
       'mapel'      =>       $payload->mapel,
       'jumlah_jam' => (int) $payload->jumlah_jam,
@@ -76,7 +76,7 @@ class DetailJadwalController extends Controller
   public function scanningData(): JsonResponse
   {
     $meta = array(
-      'jadwal_id'  => (int) request('jadwal_id'),
+      'kelas_id'  => (int) request('kelas_id'),
       'guru_id'    => (int) request('guru_id'),
       'mapel'      =>       request('mapel'),
       'tgl'        =>       request('tgl'),

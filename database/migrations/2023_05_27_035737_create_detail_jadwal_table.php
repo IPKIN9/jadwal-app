@@ -15,7 +15,7 @@ class CreateDetailJadwalTable extends Migration
     {
         Schema::create('detail_jadwal', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jadwal_id')->constrained('jadwal');
+            $table->foreignId('kelas_id')->constrained('kelas');
             $table->foreignId('guru_id')->constrained('guru');
             $table->string('mapel', 255);
             $table->integer('jumlah_jam')->autoIncrement(false);
