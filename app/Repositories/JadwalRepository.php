@@ -20,15 +20,17 @@ class JadwalRepository implements JadwalInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->jadwalModel->joinList()->pagginateList($meta)->sortered($meta)->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->jadwalModel->pagginateList($meta)->joinList()->get(),
+        'data'    => $data,
         'meta'    => array(
-          'total'   => $this->jadwalModel->count(),
-          'page'    => $meta['page'],
-          'limit'   => $meta['limit'],
-          'orderBy' => $meta['orderBy'],
-          'sort' => $meta['sort'],
+          'total'         => $this->jadwalModel->count(),
+          'page'          => $meta['page'],
+          'limit'         => $meta['limit'],
+          'orderBy'       => $meta['orderBy'],
+          'sort'          => $meta['sort'],
+          'total_in_page' => $data->count()
         ),
         'code'    => 200
       );

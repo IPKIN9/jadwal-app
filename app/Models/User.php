@@ -15,10 +15,27 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use HasApiTokens, Authenticatable, Authorizable, HasFactory;
 
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'uuid', 'nama', 'email', 'password', 'role'
     ];
 
     protected $hidden = [
         'password',
     ];
+
+    public function scopepagginateList($query, $params)
+    {
+        $page = ($params['page'] - 1) * $params['limit'];
+        if (strlen($params['search']) >= 1) {
+            return $query
+                ->where('_jurusan', 'LIKE', '%' . $params['search'] . '%')
+                ->offset($page)
+                ->limit($params['limit'])
+                ->orderBy($params['orderBy'], $params['sort']);
+        } else {
+            return $query
+                ->offset($page)
+                ->limit($params['limit'])
+                ->orderBy($params['orderBy'], $params['sort']);
+        }
+    }
 }

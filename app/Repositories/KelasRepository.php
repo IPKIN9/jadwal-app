@@ -20,15 +20,17 @@ class KelasRepository implements KelasInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->kelasModel->joinList()->pagginateList($meta)->sortered($meta)->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->kelasModel->pagginateList($meta)->joinList()->get(),
+        'data'    => $data,
         'meta'    => array(
           'total'   => $this->kelasModel->count(),
           'page'    => $meta['page'],
           'limit'   => $meta['limit'],
           'orderBy' => $meta['orderBy'],
           'sort' => $meta['sort'],
+          'total_in_page' => $data->count()
         ),
         'code'    => 200
       );

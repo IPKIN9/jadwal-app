@@ -9,6 +9,7 @@ use App\Interfaces\JurusanInterface;
 use App\Interfaces\KelasInterface;
 use App\Interfaces\MapelInterface;
 use App\Interfaces\PangkatInterface;
+use App\Interfaces\UserManageInterface;
 use App\Repositories\DetailJadwalRepository;
 use App\Repositories\GuruRepository;
 use App\Repositories\JadwalRepository;
@@ -16,6 +17,7 @@ use App\Repositories\JurusanRepository;
 use App\Repositories\KelasRepository;
 use App\Repositories\MapelRepository;
 use App\Repositories\PangkatRepository;
+use App\Repositories\UserManageRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -44,5 +46,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(GuruInterface::class, GuruRepository::class);
         $this->app->bind(JadwalInterface::class, JadwalRepository::class);
         $this->app->bind(DetailJadwalInterface::class, DetailJadwalRepository::class);
+        $this->app->bind(UserManageInterface::class, UserManageRepository::class);
     }
 }

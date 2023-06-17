@@ -20,15 +20,17 @@ class GuruRepository implements GuruInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->guruModel->joinList()->pagginateList($meta)->sortered($meta)->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->guruModel->pagginateList($meta)->joinList()->get(),
+        'data'    => $data,
         'meta'    => array(
           'total'   => $this->guruModel->count(),
           'page'    => $meta['page'],
           'limit'   => $meta['limit'],
           'orderBy' => $meta['orderBy'],
           'sort' => $meta['sort'],
+          'total_in_page' => $data->count()
         ),
         'code'    => 200
       );

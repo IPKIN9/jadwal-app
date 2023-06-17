@@ -19,15 +19,17 @@ class JurusanRepository implements JurusanInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->jurusanModel->pagginateList($meta)->sortered($meta)->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->jurusanModel->pagginateList($meta)->get(),
+        'data'    => $data,
         'meta'    => array(
-          'total'   => $this->jurusanModel->count(),
-          'page'    => $meta['page'],
-          'limit'   => $meta['limit'],
-          'orderBy' => $meta['orderBy'],
-          'sort' => $meta['sort'],
+          'total'         => $this->jurusanModel->count(),
+          'page'          => $meta['page'],
+          'limit'         => $meta['limit'],
+          'orderBy'       => $meta['orderBy'],
+          'sort'          => $meta['sort'],
+          'total_in_page' => $data->count()
         ),
         'code'    => 200
       );
