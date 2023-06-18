@@ -33,12 +33,14 @@ class ReportController extends Controller
       'sort'        =>  request('sort'),
     );
 		$kelas = $this->kelasRepo->getPayload($meta);
-		
+		// return response()->json($kelas);
 		try {
 			$report = array(
 				'message' => '',
 				'code'    => '',
+				'kelas'   => []
 			);
+			
 			foreach ($kelas['data'] as $key => $value) {
 				$jadwalMeta = array(
 					'kelas_id'   => $value['id'],
@@ -46,15 +48,17 @@ class ReportController extends Controller
 					'end_date'   => $end,
 				);
 				$jadwal = $this->detailRepo->getPayload($jadwalMeta);
-				
-				$report['data'] = $jadwal['data'];
-				// return response()->json($jadwal);
+				array_push($report['kelas'], array(
+					'nama_kelas' => $value['_kelas'],
+					'data'  => $jadwal['data']
+				));
 			}
+			return response()->json($report);
 
 			$report['meta'] = array(
 				'start' => $start,
 				'end'   => $end,
-				'total' => count($report['data'])
+				// 'total' => count($report['data'])
 			);
 			$report['message'] = 'Success';
 			$report['code'] = 200;
