@@ -19,7 +19,7 @@ class UserSeeders extends Seeder
             'nama'     => 'oned',
             'email'    => 'admin@mail.com',
             'role'     => 'crud-list',
-            'password' => Hash::make('123456'),
+            'password' => Hash::make('nurulponga@unyu'),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
