@@ -56,6 +56,9 @@ $router->group(['prefix' => 'v1/detail/jadwal'], function () use ($router) {
     $router->delete('/{id}', ['uses' => 'DetailJadwalController@deleteData', 'middleware' => ['auth']]);
 });
 
+$router->group(['prefix' => 'v1/roles'], function () use ($router) {
+    $router->get('/', ['uses' => 'UserController@getByRoles']);
+});
 
 $router->group(['prefix' => 'v1/detail/scanning'], function () use ($router) {
     $router->get('/', ['uses' => 'DetailJadwalController@scanningData', 'middleware' => ['auth']]);

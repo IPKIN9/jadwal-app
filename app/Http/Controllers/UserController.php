@@ -55,6 +55,14 @@ class UserController extends Controller
     return response()->json($data, $data['code']);
   }
 
+
+  public function getByRoles(): JsonResponse
+  {
+    $username = request('username');
+    $data = $this->userRepo->getRoles($username);
+    return response()->json($data, $data['code']);
+  }
+
   public function deleteData($id): JsonResponse
   {
     $data = $this->userRepo->deletePayload($id);
