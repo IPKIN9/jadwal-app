@@ -2,25 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-use Laravel\Passport\HasApiTokens;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class KelasModel extends Model
 {
-    use HasApiTokens, Authenticatable, Authorizable, HasFactory;
+    protected $table = 'kelas';
 
     protected $fillable = [
-        'id', 'nama', 'email', 'password', 'role'
+        'id', '_kelas', 'jurusan_id',
+        'created_at', 'updated_at'
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+    public function scopejoinList($query)
+    {
+        return $query
+            ->leftJoin('jurusan as jurusan', 'kelas.jurusan_id', '=', 'jurusan.id')
+            ->select(
+                'kelas.id',
+                'kelas._kelas',
+                'kelas.jurusan_id',
+                'jurusan._jurusan as _jurusan',
+                'kelas.created_at',
+                'kelas.updated_at',
+            );
+    }
 
     public function scopesortered($query, $params)
     {
@@ -39,12 +44,20 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $page = ($params['page'] - 1) * $params['limit'];
         if (strlen($params['search']) >= 1) {
             return $query
-                ->where('nama', 'LIKE', '%' . $params['search'] . '%')
-                ->orWhere('email', 'LIKE', '%' . $params['search'] . '%');
+                ->where('_kelas', 'LIKE', '%' . $params['search'] . '%')
+                ->orWhere('_jurusan', 'LIKE', '%' . $params['search'] . '%');
         } else {
             return $query
                 ->offset($page)
                 ->limit($params['limit']);
         }
+    }
+
+    public function scopegetByJurusan($query, $params)
+    {
+        if ($params['jurusan_id']) {
+            return $query->where('jurusan_id', $params['jurusan_id']);
+        }
+        return $query;
     }
 }

@@ -2,25 +2,37 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-use Laravel\Passport\HasApiTokens;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class GuruModel extends Model
 {
-    use HasApiTokens, Authenticatable, Authorizable, HasFactory;
+
+    protected $table = 'guru';
 
     protected $fillable = [
-        'id', 'nama', 'email', 'password', 'role'
+        'id', 'nama', 'nip', 'mapel_id', 'pangkat_id', 'jumlah_jam', 'ket',
+        'created_at', 'updated_at'
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+    public function scopejoinList($query)
+    {
+        return $query
+            ->leftJoin('mapel as model_a', 'guru.mapel_id', '=', 'model_a.id')
+            ->leftJoin('pangkat as model_b', 'guru.pangkat_id', '=', 'model_b.id')
+            ->select(
+                'guru.id',
+                'guru.nama',
+                'guru.nip',
+                'guru.mapel_id',
+                'guru.pangkat_id',
+                'guru.jumlah_jam',
+                'guru.ket',
+                'model_a.nama_mapel as mata_pelajaran',
+                'model_b._pangkat as pangkat',
+                'guru.created_at',
+                'guru.updated_at',
+            );
+    }
 
     public function scopesortered($query, $params)
     {
@@ -40,7 +52,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         if (strlen($params['search']) >= 1) {
             return $query
                 ->where('nama', 'LIKE', '%' . $params['search'] . '%')
-                ->orWhere('email', 'LIKE', '%' . $params['search'] . '%');
+                ->orWhere('model_a.nama_mapel', 'LIKE', '%' . $params['search'] . '%');
         } else {
             return $query
                 ->offset($page)

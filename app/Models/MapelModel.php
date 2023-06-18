@@ -2,24 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-use Laravel\Passport\HasApiTokens;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class MapelModel extends Model
 {
-    use HasApiTokens, Authenticatable, Authorizable, HasFactory;
+    protected $table = 'mapel';
 
     protected $fillable = [
-        'id', 'nama', 'email', 'password', 'role'
-    ];
-
-    protected $hidden = [
-        'password',
+        'id', 'nama_mapel',
+        'created_at', 'updated_at'
     ];
 
     public function scopesortered($query, $params)
@@ -39,8 +30,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $page = ($params['page'] - 1) * $params['limit'];
         if (strlen($params['search']) >= 1) {
             return $query
-                ->where('nama', 'LIKE', '%' . $params['search'] . '%')
-                ->orWhere('email', 'LIKE', '%' . $params['search'] . '%');
+                ->where('nama_mapel', 'LIKE', '%' . $params['search'] . '%');
         } else {
             return $query
                 ->offset($page)

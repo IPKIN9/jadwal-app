@@ -2,25 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-use Laravel\Passport\HasApiTokens;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract
+class JadwalModel extends Model
 {
-    use HasApiTokens, Authenticatable, Authorizable, HasFactory;
+    protected $table = 'jadwal';
 
     protected $fillable = [
-        'id', 'nama', 'email', 'password', 'role'
+        'id', 'kode', 'kelas_id', 'ket',
+        'created_at', 'updated_at'
     ];
 
-    protected $hidden = [
-        'password',
-    ];
+    public function scopejoinList($query)
+    {
+        return $query
+            ->leftJoin('kelas as model_a', 'jadwal.kelas_id', '=', 'model_a.id')
+            ->select(
+                'jadwal.id',
+                'jadwal.kode',
+                'jadwal.kelas_id',
+                'jadwal.ket',
+                'model_a._kelas as kelas',
+                'jadwal.created_at',
+                'jadwal.updated_at',
+            );
+    }
 
     public function scopesortered($query, $params)
     {
@@ -39,8 +45,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         $page = ($params['page'] - 1) * $params['limit'];
         if (strlen($params['search']) >= 1) {
             return $query
-                ->where('nama', 'LIKE', '%' . $params['search'] . '%')
-                ->orWhere('email', 'LIKE', '%' . $params['search'] . '%');
+                ->where('kode', 'LIKE', '%' . $params['search'] . '%')
+                ->orWhere('kelas', 'LIKE', '%' . $params['search'] . '%');
         } else {
             return $query
                 ->offset($page)

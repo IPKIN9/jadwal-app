@@ -5,3 +5,5 @@ Homestead.yaml
 .env
 .phpunit.result.cache
 mysql-data
+storage/oauth-private.key
+storage/oauth-public.key
