@@ -60,3 +60,7 @@ $router->group(['prefix' => 'v1/detail/jadwal'], function () use ($router) {
 $router->group(['prefix' => 'v1/detail/scanning'], function () use ($router) {
     $router->get('/', ['uses' => 'DetailJadwalController@scanningData', 'middleware' => ['auth']]);
 });
+
+$router->group(['prefix' => 'v1/report'], function () use ($router) {
+    $router->get('/jadwal', ['uses' => 'ReportController@getJadwalReport', 'middleware' => ['auth']]);
+});

@@ -17,13 +17,15 @@ class KelasController extends Controller
 
   public function getAllData(): JsonResponse
   {
-    $search = request('search') | '';
+    $search    = request('search'  ) | '';
+    $jurusanId = request('jurusan_id') | '';
     $meta = array(
-      'search' => $search,
-      'page'   => (int) request('page'),
-      'limit'  => (int) request('limit'),
-      'orderBy'  => request('orderBy'),
-      'sort'  => request('sort'),
+      'search'      =>  $search,
+      'jurusan_id'  =>  $jurusanId,
+      'page'        =>  (int) request('page') ,
+      'limit'       =>  (int) request('limit'),
+      'orderBy'     =>  request('orderBy'),
+      'sort'        =>  request('sort'),
     );
     $data = $this->kelasRepo->getPayload($meta);
     return response()->json($data, $data['code']);

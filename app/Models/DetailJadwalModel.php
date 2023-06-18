@@ -107,10 +107,12 @@ class DetailJadwalModel extends Model
 		if (strlen($params['kelas_id'] >= 1)) {
 			return $query
 			->where('kelas_id', $params['kelas_id'])
-			->whereBetween('tgl', [$params['start_date'], $params['end_date']]);
+			->whereBetween('tgl', [$params['start_date'], $params['end_date']])
+			->orderBy('tgl');
 		} else {
 			return $query
-			->whereBetween('tgl', [$params['start_date'], $params['end_date']]);
+			->whereBetween('tgl', [$params['start_date'], $params['end_date']])
+			->orderBy('tgl');
 		}
 	}
 }
