@@ -15,7 +15,7 @@ class UserSeeders extends Seeder
         $uuid = Uuid::uuid4()->toString();
 
         User::insert([
-            'uuid'       => $uuid,
+            'id'       => crc32($uuid),
             'nama'     => 'oned',
             'email'    => 'admin@mail.com',
             'role'     => 'crud-list',

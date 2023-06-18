@@ -21,16 +21,36 @@ class UserManageRepository implements UserManageInterface
   public function getPayload($meta)
   {
     try {
+      $data = $this->userModel->joinList()->pagginateList($meta)->sortered($meta)->get();
       $payloadList = array(
         'message' => 'success',
-        'data'    => $this->userModel->pagginateList($meta)->get(),
+        'data'    => $data,
         'meta'    => array(
-          'total'   => $this->userModel->count(),
-          'page'    => $meta['page'],
-          'limit'   => $meta['limit'],
-          'orderBy' => $meta['orderBy'],
-          'sort' => $meta['sort'],
+          'total'         => $this->userModel->count(),
+          'page'          => $meta['page'],
+          'limit'         => $meta['limit'],
+          'orderBy'       => $meta['orderBy'],
+          'sort'          => $meta['sort'],
+          'total_in_page' => $data->count()
         ),
+        'code'    => 200
+      );
+    } catch (\Throwable $th) {
+      $payloadList = array(
+        'message' => $th->getMessage(),
+        'code'    => 500
+      );
+    }
+
+    return $payloadList;
+  }
+
+  public function getRoles($username) {
+    try {
+      $data = $this->userModel->where('email', $username)->first(['role']);
+      $payloadList = array(
+        'message' => 'success',
+        'data'    => $data,
         'code'    => 200
       );
     } catch (\Throwable $th) {
