@@ -2,7 +2,7 @@
 return [
   'paths' => ['*'],
   'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE'],
-  'allowed_origins' => ['*.jadwalpintarsmkn2palu.*'],
+  'allowed_origins' => ['*'],
   'allowed_origins_patterns' => [],
   'allowed_headers' => ['*'],
   'exposed_headers' => [],
