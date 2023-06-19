@@ -1,8 +1,8 @@
 <?php
 return [
-  'paths'                    => ['v1/*', '*'],
+  'paths'                    => ['*', '*'],
   'allowed_methods'          => ['POST', 'GET', 'DELETE', 'PUT', '*'],
-  'allowed_origins'          => [config('app.cors'), '*'],
+  'allowed_origins'          => ['*'],
   'allowed_origins_patterns' => [],
   'allowed_headers'          => ['*'],
   'exposed_headers'          => [],
