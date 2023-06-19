@@ -83,6 +83,7 @@ $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
     'scopes' => App\Http\Middleware\CostumScopes::class,
     'scope' => App\Http\Middleware\CostumScopesForAny::class,
+    'cors' => Fruitcake\Cors\HandleCors::class,
     // 'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
     // 'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
 ]);
