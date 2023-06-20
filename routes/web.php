@@ -29,13 +29,6 @@ $router->group(['prefix' => 'v1/kelas'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'v1/mapel'], function () use ($router) {
-    $router->options('/', function () {
-        return response('', 200)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, DELETE')
-            ->header('Access-Control-Allow-Headers', 'Content-Type');
-    });
-
     $router->get('/',        ['uses' => 'MapelController@getAllData', 'middleware' => ['auth']]);
     $router->get('/{id}',    ['uses' => 'MapelController@getById',    'middleware' => ['auth']]);
     $router->post('/',       ['uses' => 'MapelController@upsertData', 'middleware' => ['auth', 'scope:crud-list']]);
