@@ -33,6 +33,8 @@ class CorsMiddleware
         foreach($headers as $key => $value) {
             $response->headers->set($key, $value);
         }
+
+        $response->headers->set('Access-Control-Allow-Origin', '*');
     
         return $response;
     }
