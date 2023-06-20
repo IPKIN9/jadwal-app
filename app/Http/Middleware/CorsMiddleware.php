@@ -20,13 +20,13 @@ class CorsMiddleware
             'Access-Control-Allow-Methods'     => '*',
             'Access-Control-Allow-Credentials' => 'true',
             'Access-Control-Max-Age'           => '86400',
-            'Access-Control-Allow-Headers'     => 'Content-Type, Authorization, X-Requested-With, *'
+            'Access-Control-Allow-Headers'     => '*'
         ];
     
         if ($request->isMethod('OPTIONS')) {
             return response('', 200)
                 ->header('Access-Control-Allow-Methods', '*')
-                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, *');
+                ->header('Access-Control-Allow-Headers', '*');
         }
     
         $response = $next($request);
